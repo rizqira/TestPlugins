@@ -1,58 +1,68 @@
-**⚠️ This is currently under development, dont use it yet if you're not comfortable with constantly merging new changes**
+# IndoStream: Kumpulan Ekstensi CloudStream untuk Konten Indonesia
 
-# `Cloudstream3 Plugin Repo Template`
+IndoStream adalah kumpulan ekstensi CloudStream yang berfokus pada penyediaan konten streaming dari berbagai sumber di Indonesia. Repositori ini berisi ekstensi yang memperluas fungsionalitas aplikasi CloudStream, memungkinkan pengguna untuk menikmati berbagai macam film, serial, dan anime dari situs-situs populer di Indonesia.
 
-Template for a [Cloudstream3](https://github.com/recloudstream) plugin repo
+## Fitur Utama
 
-**⚠️ Make sure you check "Include all branches" when using this template**
+*   **Beragam Sumber Konten:** Akses konten dari berbagai situs streaming populer di Indonesia.
+*   **Mudah Digunakan:** Instalasi dan penggunaan yang sederhana melalui aplikasi CloudStream.
+*   **Pembaruan Reguler:** Ekstensi diperbarui secara berkala untuk memastikan kompatibilitas dan ketersediaan konten.
+*   **Fokus pada Konten Indonesia:** Kumpulan ekstensi ini berfokus pada konten yang relevan dengan pengguna di Indonesia.
 
- 
-## Getting started with writing your first plugin
+## Daftar Ekstensi
 
-This template includes 1 example plugin.
+Berikut adalah daftar ekstensi yang tersedia di repositori IndoStream:
 
-1. Open the root build.gradle.kts, read the comments and replace all the placeholders
-2. Familiarize yourself with the project structure. Most files are commented
-3. Build or deploy your first plugin using:
-   - Windows: `.\gradlew.bat ExampleProvider:make` or `.\gradlew.bat ExampleProvider:deployWithAdb`
-   - Linux & Mac: `./gradlew ExampleProvider:make` or `./gradlew ExampleProvider:deployWithAdb`
+| Nama Ekstensi | Status                            |
+| ------------- | --------------------------------- |
+| Animasu       | Jalan, gambar poster tidak muncul |
+| Animindo      | Error                             |
+| Animesail     | Jalan                             |
+| Anoboy        | Error                             |
+| Dramaid       | Link Error. Oppadrama jalan       |
+| DramaSerial   | Error                             |
+| Dubbindo      | Jalan                             |
+| Dutamovie     | Butuh VPN                         |
+| Funmovieslix  | Jalan                             |
+| Gomov         | Butuh VPN, Link Error             |
+| Gomunime      | Down                              |
+| Idlix         | Link Error                        |
+| IndoTV        | Jalan                             |
+| Kuramanime    | Butuh VPN, Link Error             |
+| Kuronime      | Link Error                        |
+| LayarKaca     | Jalan                             |
+| Minioppai     | Error                             |
+| Nekopoi       | Butuh VPN                         |
+| Neonime       | Error                             |
+| Ngefilm       | Error                             |
+| Nimegami      | Jalan, perlu perbaikan menu       |
+| Nodrakorid    | Error tidak bisa diinstal         |
+| NontonAnimeID | Down                              |
+| Oploverz      | Down                              |
+| Otakudesu     | Jalan                             |
+| Pencurimovie  | Jalan                             |
+| Pusatfilm     | The Operation is not implemented  |
+| Raveeflix     | Down                              |
+| Rebahin       | Butuh VPN, Link Error             |
+| Samehadaku    | Butuh VPN                         |
+| UseeTv        | Error                             |
 
+## Cara Menggunakan
 
-## Granting All Files Access on Newer Android Devices
+1.  Buka aplikasi CloudStream.
+2.  Buka menu "Ekstensi".
+3.  Klik tombol "Tambahkan Repositori".
+4.  Masukkan URL repositori IndoStream: https://raw.githubusercontent.com/TeKuma25/IndoStream/builds/repo.json
+5.  Klik "Tambahkan".
+6.  Ekstensi yang tersedia akan muncul di daftar.
+7.  Pilih ekstensi yang ingin Anda instal dan klik "Instal".
 
-For local plugin testing, you need to grant the app "All Files Access" on newer Android devices (Android 11 and above). Here’s how to do it:
+## Membangun Proyek
 
-### Using ADB
+Untuk membangun proyek ini, Anda memerlukan [Gradle](https://gradle.org/) yang terinstal. Anda dapat membangun proyek menggunakan perintah berikut:
 
-* `adb shell appops set --uid PACKAGE_NAME MANAGE_EXTERNAL_STORAGE allow`
-* Replace `PACKAGE_NAME` with the name of the package for the Cloudstream3 version you are using:
-   - debug: `com.lagradost.cloudstream3.prerelease.debug`
-   - prerelease: `com.lagradost.cloudstream3.prerelease`
-   - stable: `com.lagradost.cloudstream3`
+sh ./gradlew build
 
-### Manually
+## Kontribusi
 
-1. **Open Settings**: Go to your device’s Settings menu.
-
-2. **Navigate to Special Access**:
-   - Tap on "Apps & notifications" or "Apps".
-   - Select "Special app access" or "Special access".
-
-3. **Select All Files Access**:
-   - Tap on "All files access".
-   - It may be under the three vertical dots menu towards the top of the screen.
-
-4. **Grant Access to the App**: Find the app in the list and tap on it to toggle it, if it is not already enabled.
-
-6. **Restart the App**: Close and reopen the app to apply the changes.
-
-
-## License
-
-Everything in this repo is released into the public domain. You may use it however you want with no conditions whatsoever
-
-
-## Attribution
-
-This template as well as the gradle plugin and the whole plugin system is **heavily** based on [Aliucord](https://github.com/Aliucord).
-*Go use it, it's a great mobile discord client mod!*
+Kami menyambut baik kontribusi dari komunitas! Jika Anda ingin menambahkan ekstensi baru, memperbaiki bug, atau meningkatkan dokumentasi, silakan buat *pull request* atau buka *issue*.
