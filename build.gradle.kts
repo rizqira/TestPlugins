@@ -1,18 +1,19 @@
-import com.android.build.gradle.BaseExtension
 import com.lagradost.cloudstream3.gradle.CloudstreamExtension
-import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
+import com.android.build.gradle.BaseExtension
 
 buildscript {
     repositories {
         google()
         mavenCentral()
+        // Shitpack repo which contains our tools and dependencies
         maven("https://jitpack.io")
     }
 
     dependencies {
-        classpath("com.android.tools.build:gradle:8.7.3") // jangan diganti
+        classpath("com.android.tools.build:gradle:7.0.4")
+        // Cloudstream gradle plugin which makes everything work and builds plugins
         classpath("com.github.recloudstream:gradle:-SNAPSHOT")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.7.22")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.22")
     }
 }
 
@@ -24,11 +25,9 @@ allprojects {
     }
 }
 
-fun Project.cloudstream(configuration: CloudstreamExtension.() -> Unit) =
-    extensions.getByName<CloudstreamExtension>("cloudstream").configuration()
+fun Project.cloudstream(configuration: CloudstreamExtension.() -> Unit) = extensions.getByName<CloudstreamExtension>("cloudstream").configuration()
 
-fun Project.android(configuration: BaseExtension.() -> Unit) =
-    extensions.getByName<BaseExtension>("android").configuration()
+fun Project.android(configuration: BaseExtension.() -> Unit) = extensions.getByName<BaseExtension>("android").configuration()
 
 subprojects {
     apply(plugin = "com.android.library")
@@ -36,17 +35,17 @@ subprojects {
     apply(plugin = "com.lagradost.cloudstream3.gradle")
 
     cloudstream {
-        setRepo(System.getenv("GITHUB_REPOSITORY") ?: "https://github.com/tekuma25/Indostream")
-        authors = listOf("TeKuma25")
+        // when running through github workflow, GITHUB_REPOSITORY should contain current repository name
+        setRepo(System.getenv("GITHUB_REPOSITORY") ?: "https://github.com/hexated/cloudstream-extensions-hexated")
+
+        authors = listOf("Hexated")
     }
 
     android {
-        namespace = "com.tekuma25"
-
         defaultConfig {
-            minSdk = 26
-            compileSdkVersion(35)
-            targetSdk = 35
+            minSdk = 21
+            compileSdkVersion(33)
+            targetSdk = 33
         }
 
         compileOptions {
@@ -54,57 +53,40 @@ subprojects {
             targetCompatibility = JavaVersion.VERSION_1_8
         }
 
-        tasks.withType<KotlinJvmCompile>().configureEach {
+        tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
             kotlinOptions {
-                jvmTarget = "1.8"
-                freeCompilerArgs += listOf(
-                    "-Xno-call-assertions",
-                    "-Xno-param-assertions",
-                    "-Xno-receiver-assertions"
-                )
+                jvmTarget = "1.8" // Required
+                // Disables some unnecessary features
+                freeCompilerArgs = freeCompilerArgs +
+                        "-Xno-call-assertions" +
+                        "-Xno-param-assertions" +
+                        "-Xno-receiver-assertions"
             }
         }
     }
 
     dependencies {
-        val cloudstream by configurations
+        val apk by configurations
         val implementation by configurations
 
-        // Cloudstream dependencies
-        cloudstream("com.lagradost:cloudstream3:pre-release")
+        // Stubs for all Cloudstream classes
+        apk("com.lagradost:cloudstream3:pre-release")
 
-        // Kotlin Standard Library
-        implementation(kotlin("stdlib"))
+        // these dependencies can include any of those which are added by the app,
+        // but you dont need to include any of them if you dont need them
+        // https://github.com/recloudstream/cloudstream/blob/master/app/build.gradle
 
-        // HTTP requests
-        implementation("com.github.Blatzar:NiceHttp:0.4.11")
-        implementation("com.squareup.okhttp3:okhttp:4.12.0")
+        implementation(kotlin("stdlib")) // adds standard kotlin features, like listOf, mapOf etc
+        implementation("com.github.Blatzar:NiceHttp:0.4.11") // http library
+        implementation("org.jsoup:jsoup:1.17.2") // html parser
+        implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.16.1")
+        implementation("io.karn:khttp-android:0.1.2")
+        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.0")
+        implementation("org.mozilla:rhino:1.7.14") //run JS
 
-        // Parsing HTML
-        implementation("org.jsoup:jsoup:1.18.3")
-
-        // JSON
-        implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.13.1")
-        implementation("com.fasterxml.jackson.core:jackson-databind:2.16.1")
-        implementation("com.google.code.gson:gson:2.11.0")
-        implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.3")
-
-        // Coroutines
-        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.10.1")
-        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.1")
-
-        // JavaScript engine
-        implementation("com.faendir.rhino:rhino-android:1.6.0")
-        implementation("app.cash.quickjs:quickjs-android:0.9.2")
-
-        // Fuzzy matching
-        implementation("me.xdrop:fuzzywuzzy:1.4.0")
-
-        // Android util
-        implementation("androidx.core:core-ktx:1.16.0")
     }
 }
 
-tasks.register<Delete>("clean") {
-    delete(rootProject.layout.buildDirectory)
+task<Delete>("clean") {
+    delete(rootProject.buildDir)
 }

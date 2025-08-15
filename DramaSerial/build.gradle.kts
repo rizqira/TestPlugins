@@ -1,13 +1,13 @@
 // use an integer for version numbers
-version = 7
+version = 6
 
 
 cloudstream {
     language = "id"
     // All of these properties are optional, you can safely remove them
 
-     description = "Drama Serial, harus pake vpn"
-     authors = listOf("Hexated", "TeKuma25")
+    // description = "Lorem Ipsum"
+     authors = listOf("Hexated")
 
     /**
      * Status int as the following:
@@ -21,5 +21,5 @@ cloudstream {
         "AsianDrama",
     )
 
-    iconUrl = "https://www.google.com/s2/favicons?domain=tv3.dramaserial.id&sz=%size%"
+    iconUrl = "https://www.google.com/s2/favicons?domain=149.3.170.35&sz=%size%"
 }
